@@ -44,4 +44,4 @@ while (error != 0) or (epochs_lapsed < 10):
 # find sum squared error of the whole dataset.
 # adjust each weight based on SSE, wi and xi. This is done 4 times because there are 4 weights.
 
-
+# Carlson sample push
