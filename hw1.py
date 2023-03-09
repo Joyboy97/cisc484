@@ -33,7 +33,7 @@ def adjust_weight(data, weights) -> int:
     squared_error = 0
     for row in data: 
         prediction = row[0]*weights[1] + row[1]*weights[2] + row[2]*weights[3] + weights[0]
-        squared_error += (prediction - row[3])**2
+        squared_error += (row[3] - prediction)**2
         print(squared_error)
     # 1 epoch
     for row in data:
@@ -42,12 +42,11 @@ def adjust_weight(data, weights) -> int:
         weights[3] = weights[3] + learning_rate*squared_error*1
 
 
-
-epochs_lapsed = 0
-while (error != 0) or (epochs_lapsed < 10):
-    for weight in weights:
-        weight = weight + learning_rate*sum_squared_error(data, weights)*
-sum_squared_error(data, initial_weights)
+# epochs_lapsed = 0
+# while (error != 0) or (epochs_lapsed < 10):
+#     for weight in weights:
+#         weight = weight + learning_rate*sum_squared_error(data, weights)
+# sum_squared_error(data, initial_weights)
 
 
 # go through each row in the dataset and get the err
@@ -55,5 +54,6 @@ sum_squared_error(data, initial_weights)
 # During one epoch:
 # find sum squared error of the whole dataset.
 # adjust each weight based on SSE, wi and xi. This is done 4 times because there are 4 weights.
-
+# the problem is i need only 4 xi's. 
+# add up all xis together, equivalent to transposing x?
 # Carlson sample push
