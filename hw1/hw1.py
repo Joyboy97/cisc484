@@ -1,25 +1,23 @@
-
-
-
 # prediction = x1*w1 + x2*w2 + x3*w3
+
+# added one to the front for w0 since w0 is always one
 data = [
-    [2, 1, 3, 6],
-    [5, 2, 7, 11],
-    [2, -2, 4, 0],
-    [-3, 1, -2, 0],
-    [-5, 3, -1, 1]
+    [1, 2, 1, 3],
+    [1, 5, 2, 7],
+    [1, 2, -2, 4],
+    [1, -3, 1, -2],
+    [1, -5, 3, -1]
     ]
 
-# target_data = [6, 11, 0, 0, 1]
-initial_weights = [.2, .1, .1, .1] # w0 is on the end as .1
+target_data = [6, 11, 0, 0, 1]
+initial_weights = [.1, .2, .1, .1] 
 weights = initial_weights
-learning_rate = .1
+learning_rate = .01
+epochs = 10
 # o is from y equation plugging in weights from previous epoch
 # y is calculated by plugging in 
 # error = (prediction - output)
 # w = wi + learning_rate(error)*x
-
-output = 0
 
 # def sum_squared_error(data, weights) -> int:
 #     squared_error = 0
