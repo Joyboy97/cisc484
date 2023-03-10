@@ -1,3 +1,4 @@
+# Q3
 data = [
     [2, 1, 3, 6],
     [5, 2, 7, 11],
@@ -46,4 +47,4 @@ while epoch > 0:
     print("epoch: " + str(epoch))
     epoch -= 1
 
-sum_squared_error(data, weights)
+sum_squared_error(data, weights):w0
