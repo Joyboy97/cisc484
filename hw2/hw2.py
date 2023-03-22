@@ -1,15 +1,7 @@
 import numpy as np
 import pandas as pd
 
-data = {"y": [1, 1, 1, 1, 1, -1, -1, -1, -1, -1],
-        "x1": [0, 1, 1, 0, 1, 0, 0, 0, 1, 0],
-        "x2": [1, 0, 1, 0, 1, 0, 0, 0, 0, 0],
-        "x3": [0, 1, 1, 0, 1, 1, 0, 1, 0, 1],
-        "x4": [1, 0, 0, 1, 0, 1, 0, 0, 0, 1]}
-
-df = pd.DataFrame(data)
-print(df)
-# calculate entropy
+# calculate entropy of a set
 def entropy_of_set(column):
     value_counts = column.value_counts() 
     negative = 0
@@ -51,14 +43,28 @@ def information_gain(df, outcome_col: str, feature: str):
             -(positives/total) * np.log2(positives/total) - (negatives/total) * np.log2(negatives/total)))
     return information_gain
 
-print("main")
-print(information_gain(df, "y", "x1"))
-print(information_gain(df, "y", "x2"))
-print(information_gain(df, "y", "x3"))
-print(information_gain(df, "y", "x4"))
-
-# calculate weighted entropy for each feature
-# def weighted
-
 # run ID3 algorithm on the dataframe
-# def ID3():
+def ID3(df, outcome_col: str):
+    # find the feature with the highest information gain
+    print("information gain for each feature: ")
+    for feature in df.columns:
+        if feature != outcome_col:
+            print(information_gain(df, outcome_col, feature))
+    # select the feature with the highest information gain
+    # TODO: how do you represent decision tree with sklearn
+    return
+
+
+def main():
+    data = {"y": [1, 1, 1, 1, 1, -1, -1, -1, -1, -1],
+            "x1": [0, 1, 1, 0, 1, 0, 0, 0, 1, 0],
+            "x2": [1, 0, 1, 0, 1, 0, 0, 0, 0, 0],
+            "x3": [0, 1, 1, 0, 1, 1, 0, 1, 0, 1],
+            "x4": [1, 0, 0, 1, 0, 1, 0, 0, 0, 1]}
+    df = pd.DataFrame(data)
+    print(df)
+    ID3(df, "y")
+    return
+
+if __name__ == "__main__":
+    main()
