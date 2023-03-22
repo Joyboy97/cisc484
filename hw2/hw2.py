@@ -51,7 +51,7 @@ def ID3(df, outcome_col: str):
         if feature != outcome_col:
             print(information_gain(df, outcome_col, feature))
     # select the feature with the highest information gain
-    # TODO: how do you represent decision tree with sklearn
+    # TODO: how do you represent decision tree (might not be sklearn)
     return
 
 
