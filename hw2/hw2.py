@@ -54,16 +54,37 @@ def ID3(df, outcome_col: str):
     # TODO: how do you represent decision tree (might not be sklearn)
     return
 
+class Node:
+    def __init__(self, feature: str, attribute_to_child: dict):
+        self.feature = feature
+        self.attribute_to_child = attribute_to_child
+    
+    def __str__(self):
+        return "feature: " + self.feature + " attribute_to_child: " + str(self.attribute_to_child)
+    
+    def add_attribute_child(self, attribute: object, child):
+        self.attribute_child_dict.update({attribute: child})
+        return
 
+# class Decision_tree:
+#     def __init__(self, root: node):
+#         self.root = root
+    
+#     # print the tree
+#     def __str__(self):
+#         to_print = 
+        
 def main():
-    data = {"y": [1, 1, 1, 1, 1, -1, -1, -1, -1, -1],
-            "x1": [0, 1, 1, 0, 1, 0, 0, 0, 1, 0],
-            "x2": [1, 0, 1, 0, 1, 0, 0, 0, 0, 0],
-            "x3": [0, 1, 1, 0, 1, 1, 0, 1, 0, 1],
-            "x4": [1, 0, 0, 1, 0, 1, 0, 0, 0, 1]}
-    df = pd.DataFrame(data)
-    print(df)
-    ID3(df, "y")
+    # data = {"y": [1, 1, 1, 1, 1, -1, -1, -1, -1, -1],
+    #         "x1": [0, 1, 1, 0, 1, 0, 0, 0, 1, 0],
+    #         "x2": [1, 0, 1, 0, 1, 0, 0, 0, 0, 0],
+    #         "x3": [0, 1, 1, 0, 1, 1, 0, 1, 0, 1],
+    #         "x4": [1, 0, 0, 1, 0, 1, 0, 0, 0, 1]}
+    # df = pd.DataFrame(data)
+    # print(df)
+    # ID3(df, "y")
+    node = Node("x1", {0: "x2", 1: "x3"})
+    print("thing\tthing")
     return
 
 if __name__ == "__main__":
