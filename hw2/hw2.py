@@ -28,14 +28,10 @@ def count_pos_neg(df, feature: str, outcome_col):
     total = positives + negatives
     return positives, negatives, total
 
-def information_gain(df, outcome_col: str, feature: str, last_feature: str = None):
+def information_gain(df, outcome_col: str, feature: str):
     # calculate entropy for feature
     # calculate weighted entropy for each feature
-    if last_feature != None:
-        # TODO: is this right
-        set_entropy = entropy_of_set(df[df[last_feature] == 1][outcome_col])
-    else:
-        set_entropy = entropy_of_set(df[outcome_col])
+    set_entropy = entropy_of_set(df[outcome_col])
     positives, negatives, total = count_pos_neg(df, feature, outcome_col)
     # print("entropy of set: " + str(set_entropy))
     # print("positives: " + str(positives))
@@ -69,7 +65,7 @@ def check_pure(positives, negatives, total):
         return False
 
 # run ID3 algorithm on the dataframe
-def ID3(df, outcome_col: str):
+def iterative_ID3(df, outcome_col: str):
     tree = Decision_tree(None)
     for i in range(0, 2):
         if tree.root == None:
@@ -102,6 +98,53 @@ def ID3(df, outcome_col: str):
             print(df)
     # populate
     return
+
+def ID3(df, outcome_col: str, tree):
+    # recursive ID3
+    chosen_feature = max_info_gain(df, outcome_col)
+
+    # basecase: if a choice (0 or 1) is pure, return which choice is pure and what the outcome is
+    positives, negatives, total = count_pos_neg(df, outcome_col, chosen_feature)
+    if check_pure(positives, negatives, total):
+        if positives > negatives:
+            return "positive"
+        else:
+            return "negative"
+
+    # basecase: if there are no more features to choose from, return the most probable outcome
+    # df = df.drop(columns=["x2", "x3", "x4"])
+    if df.shape[1] == 2: # if there are no more features to choose from
+        # return the most probable outcome
+        # remaining_feature = df.columns[df.columns != outcome_col][0]
+        # print(remaining_feature)
+        # positive, negative, total = count_pos_neg(df, outcome_col, remaining_feature)
+        if positive > negative:
+            return "positive"
+        else: 
+            return "negative"
+    
+
+    # general case: 
+    # 1. find the feature with the highest information gain
+    # 2. initialize a node of that feature and add it to the tree in the correct place
+    # 3. split the dataframe into two dataframes based on the feature's value
+    # 4. run ID3 on each of the two dataframes
+    
+    # 0s dataframe:
+    zeros_df = df.loc[df[chosen_feature] == 0]
+    # 1s dataframe:
+    ones_df = df.loc[df[chosen_feature] == 1]
+
+
+    if tree.root == None:
+        tree = Decision_tree(Node(chosen_feature, {0: ID3(zeros_df, outcome_col, tree), 
+                                                    1: ID3(ones_df, outcome_col, tree)}, None, True))
+        return tree
+
+    else: 
+        tree.root.add_attribute_child(0, ID3(zeros_df, outcome_col, tree))
+        tree.root.add_attribute_child(1, ID3(ones_df, outcome_col, tree))
+
 
 class Node:
     # def __init__(self, feature: str, attribute_to_child: dict, level: int, parent, root_bool: bool = False):
@@ -149,7 +192,8 @@ def main():
             "x4": [1, 0, 0, 1, 0, 1, 0, 0, 0, 1]}
     df = pd.DataFrame(data)
     print(df)
-    ID3(df, "y")
+    print(ID3(df, "y", Decision_tree(None)))
+
 
     # node1 = Node("x2", {0: "x4", 1: "x4"}, None, False)
     # node = Node("x1", {0: node1, 1: "x3"}, None, True)
