@@ -55,16 +55,29 @@ def ID3(df, outcome_col: str):
     return
 
 class Node:
-    def __init__(self, feature: str, attribute_to_child: dict):
+    def __init__(self, feature: str, attribute_to_child: dict, level: int, parent, root_bool: bool = False):
         self.feature = feature
         self.attribute_to_child = attribute_to_child
+        self.parent = parent
+        self.level = level
+        self.root_bool = root_bool
     
     def __str__(self):
-        return "feature: " + self.feature + " attribute_to_child: " + str(self.attribute_to_child)
+        to_return = ""
+        if self.root_bool:
+            to_return += "Root: " + self.feature + "\n"
+        else:
+            to_return += "\t"*self.level + self.parent.feature + " -> " + self.feature + "\n"
+
+        # else: 
+        #     to_return += 
+        # return self.feature + 
     
     def add_attribute_child(self, attribute: object, child):
         self.attribute_child_dict.update({attribute: child})
         return
+    
+    # TODO: how do you increase level
 
 # class Decision_tree:
 #     def __init__(self, root: node):
@@ -72,6 +85,7 @@ class Node:
     
 #     # print the tree
 #     def __str__(self):
+#         level = 0
 #         to_print = 
         
 def main():
@@ -83,8 +97,8 @@ def main():
     # df = pd.DataFrame(data)
     # print(df)
     # ID3(df, "y")
-    node = Node("x1", {0: "x2", 1: "x3"})
-    print("thing\tthing")
+    # node = Node("x1", {0: "x2", 1: "x3"})
+    print("thing\tthing\n"*3)
     return
 
 if __name__ == "__main__":
